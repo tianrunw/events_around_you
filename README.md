@@ -1,0 +1,2 @@
+# events_around_you
+STIT BACKEND PROGRAMMING CHALLENGE
