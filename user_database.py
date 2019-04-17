@@ -30,7 +30,11 @@ class Database (object):
         return con
 
 
-    def _authenticate (self, userid, password):
+    def close (self):
+        self.con.close()
+
+
+    def authenticate (self, userid, password):
         hashed = hashlib.sha256(password.encode('utf-8')).hexdigest()
         sql = """
             SELECT (password) FROM events WHERE userid='{}'
@@ -43,7 +47,6 @@ class Database (object):
             return
         else:
             raise ValueError("Authentication failed")
-
 
 
     def register (self, userid, password, interests):
@@ -63,7 +66,7 @@ class Database (object):
 
 
     def get_interests (self, userid, password):
-        self._authenticate(userid, password)
+        self.authenticate(userid, password)
         sql = """
             SELECT (interests) FROM events WHERE userid='{}'
         """
@@ -74,8 +77,8 @@ class Database (object):
         return result[0][0].split(',')
 
 
-    def update_interests (self, userid, password, newint):
-        self._authenticate(userid, password)
+    def set_interests (self, userid, password, newint):
+        self.authenticate(userid, password)
         assert(type(newint) is list)
         newint = ','.join(newint)
         sql = """
