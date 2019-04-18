@@ -59,6 +59,13 @@ ordering corresponds to the interests list. In the above example, as we changed
 our preference to just one (Classical Music), the length of the list is expected 
 to be one.
 
+### Logout
+```
+>>> L.logout()
+```
+The `logout` method closes the connection to the database. All operations on `L` 
+thereafter will throw an unhandled exception.
+
 ### Database Details
 1. Everything is stored on disk in `events.sqlite` in the same directory, and thus 
 information is persisted across runs.
