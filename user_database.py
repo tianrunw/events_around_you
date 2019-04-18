@@ -4,6 +4,20 @@ import hashlib
 
 
 
+# parse user interests list to string
+def list_to_string (l):
+    l = ['|'.join(t) for t in l]
+    return ','.join(l)
+
+
+# parse user interests string to list
+def string_to_list (s):
+    l = s.split(',')
+    l = [tuple(t.split('|')) for t in l]
+    return l
+
+
+
 class Database (object):
 
     def __init__ (self):
@@ -52,7 +66,7 @@ class Database (object):
     def register (self, userid, password, interests):
         hashed = hashlib.sha256(password.encode('utf-8')).hexdigest()
         assert(type(interests) is list)
-        interests = ','.join(interests)
+        interests = list_to_string(interests)
         sql = """
             INSERT INTO events VALUES ('{}', '{}', '{}')
         """
@@ -74,13 +88,13 @@ class Database (object):
         cur.execute(sql.format(userid))
         result = cur.fetchall()
         assert(len(result) > 0)
-        return result[0][0].split(',')
+        return string_to_list(result[0][0])
 
 
     def set_interests (self, userid, password, newint):
         self.authenticate(userid, password)
         assert(type(newint) is list)
-        newint = ','.join(newint)
+        newint = list_to_string(newint)
         sql = """
             UPDATE events SET interests=('{}') WHERE userid='{}'
         """
@@ -93,4 +107,5 @@ class Database (object):
 
 
 if __name__ == '__main__':
+    l1 = [('Music', 'Classical'), ('Music', 'R&B'), ('Film', )]
     D = Database()

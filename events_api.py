@@ -40,4 +40,4 @@ def get_events (field, genre=None):
 
 
 if __name__ == '__main__':
-    print(get_events('Music', 'Classical'))
+    E = get_events('Music', 'Classical')

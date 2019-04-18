@@ -1,4 +1,5 @@
 from user_database import Database
+from events_api import get_events
 
 
 
@@ -28,4 +29,28 @@ class Login (object):
 
 
     def set_interests (self, newint):
-        return self.D.set_interests(self.userid, self.password, newint)
+        self.D.set_interests(self.userid, self.password, newint)
+
+
+    def get_events (self):
+        """
+        RETURNS
+        -------
+        a list of requests.json() objects
+        """
+        interests = self.get_interests()
+        events = [get_events(*args) for args in interests]
+        return events
+
+
+    def logout (self):
+        self.userid = ''
+        self.password = ''
+        self.D.close()
+
+
+
+
+
+if __name__ == '__main__':
+    L = Login('tw969', '199397')
