@@ -18,10 +18,12 @@ $ cd events_around_you
 
 ### Registration
 The user only needs to interact with one file: `main.py`, where the main 
-functions of the API take place, within the interactive Python prompt:
+functions of the API take place:
 ```
 $ python -i main.py
 ```
+The above command activates the interactive Python prompt, where rest of the 
+demo is carried out.
 
 To register as a new user, we call the `register` function with a userid, (for 
 example your NYU NetID), a password, and a list of your interests:
