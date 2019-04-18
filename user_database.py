@@ -17,6 +17,19 @@ def string_to_list (s):
     return l
 
 
+# check input interests list validity
+def check_interests (l):
+    try:
+        assert(type(l) is list)
+        for t in l:
+            assert(type(t) is tuple)
+            assert(len(t) > 0 and len(t) <= 2)
+            assert(all([type(s) is str for s in t]))
+
+    except AssertionError as e:
+        raise ValueError("Invalid interests list") from e
+
+
 
 class Database (object):
 
@@ -64,8 +77,8 @@ class Database (object):
 
 
     def register (self, userid, password, interests):
+        check_interests(interests)
         hashed = hashlib.sha256(password.encode('utf-8')).hexdigest()
-        assert(type(interests) is list)
         interests = list_to_string(interests)
         sql = """
             INSERT INTO events VALUES ('{}', '{}', '{}')
@@ -75,8 +88,8 @@ class Database (object):
         try:
             cur.execute(sql)
             self.con.commit()
-        except sqlite3.IntegrityError:
-            raise ValueError("User ID already exists")
+        except sqlite3.IntegrityError as e:
+            raise ValueError("User ID already exists") from e
 
 
     def get_interests (self, userid, password):
@@ -93,7 +106,7 @@ class Database (object):
 
     def set_interests (self, userid, password, newint):
         self.authenticate(userid, password)
-        assert(type(newint) is list)
+        check_interests(newint)
         newint = list_to_string(newint)
         sql = """
             UPDATE events SET interests=('{}') WHERE userid='{}'
@@ -107,5 +120,5 @@ class Database (object):
 
 
 if __name__ == '__main__':
-    l1 = [('Music', 'Classical'), ('Music', 'R&B'), ('Film', )]
+    l1 = [('Music', 'Classical'), ('Film', 'Comedy'), ('Parking', )]
     D = Database()
