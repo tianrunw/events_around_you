@@ -87,7 +87,7 @@ class Login (object):
         return events
 
 
-    # user's responsibility to reqlinquish database resources
+    # client's responsibility to reqlinquish database resources
     def logout (self):
         self.D.close()
 
