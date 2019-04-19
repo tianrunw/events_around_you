@@ -69,9 +69,9 @@ The `logout` method closes the connection to the database. All operations on `L`
 thereafter will throw an unhandled exception.
 
 ### Database Details
-1. Everything is stored on disk in `events.sqlite` in the same directory, and thus 
-information is persisted across runs.
-2. The non-salted, SHA-256 hashed password is stored in the database and in no 
-circumstance is the plain-text equivalent recorded.
+1. Everything is stored on disk in `events.sqlite` in the same directory, 
+persisting information across runs.
+2. Passwords are stored as non-salted SHA-256 hashes. The plain-text passwords 
+are never recorded.
 3. The interests list is parsed into a `,` and `|` delimited string and stored 
 in the database as `TEXT` type.
